@@ -40,7 +40,7 @@ Edit isi `.env` sesuai kebutuhan.
 
 ### 5. Jalankan Server
 ```
-npm run dev
+npm start
 ```
 Akses API:
 - Swagger UI: http://127.0.0.1:8000/docs
