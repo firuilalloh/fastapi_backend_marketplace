@@ -1,0 +1,62 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+pip-wheel-metadata/
+
+# ---- Virtual Environment ----
+venv/
+env/
+.venv/
+
+# ---- Environment & Secrets ----
+.env
+.env.*
+!.env.example
+
+# ---- IDE / Editor ----
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ---- Testing ----
+.pytest_cache/
+coverage/
+htmlcov/
+
+# ---- Logs ----
+*.log
+logs/
+debug.log
+
+# ---- Bytecode cache ----
+__pycache__/
+.cache/
+
+# ---- OS Generated ----
+.DS_Store
+Thumbs.db
+
+# ---- Dependencies (jika pakai pip freeze, ini tetap boleh)
+# Tetapi folder ini jangan ikut:
+site-packages/
+
+# ---- Migrations (jika pakai Alembic, tetap disarankan DI COMMIT)
+# Jadi tidak di-ignore
+# alembic/
+
+# ---- Uploads / Temp Files ----
+uploads/
+temp/
+tmp/
+
+# ---- FastAPI / Uvicorn ----
+*.pid

@@ -1,0 +1,15 @@
+{
+  "name": "fastapi_backend_marketplace",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "uvicorn main:app --reload --port 8000"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0"
+  }
+}
