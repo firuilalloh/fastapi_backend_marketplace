@@ -17,10 +17,11 @@ git clone <url-repository>
 cd project
 ```
 
-### 2. Buat Virtual Environment
+### 2. Buat Virtual Environment & install npm
 **Windows:**
 ```
 python -m venv venv
+npm i
 venv\Scripts\activate
 ```
 **Mac/Linux:**

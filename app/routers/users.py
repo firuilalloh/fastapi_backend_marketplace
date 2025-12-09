@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from supabase.lib.client_options import ClientOptions
 from ..database import get_supabase_client
-from ..models.userModel import User, userResponse
+from ..models.user_model import User, userResponse
 
 router = APIRouter(prefix="/api/users", tags=["Users"])
 
