@@ -15,7 +15,7 @@ def r_get_product_by_id(id: int):
     return sgpb(id)
     
 @router.patch("/update/{id}", response_model=productUpdateResponse)
-def update_product(id: int, product_update: productUpdate):
+def r_update_product(id: int, product_update: productUpdate):
 
     update_data = product_update.model_dump(exclude_unset=True)
 
