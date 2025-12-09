@@ -1,8 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from supabase.lib.client_options import ClientOptions
-from ..database import get_supabase_client
 from ..models.product_model import Product, productResponse, productResponseId, productUpdate, productUpdateResponse
-from ..services.product_service import s_get_all_products as sgap, s_get_product_by_id as sgpb, s_update_product as sup
+from ..services.product_service import s_get_all_products as sgap, s_get_product_by_id as sgpb, s_update_product as sup, s_delete_product as sdp
 
 router = APIRouter(prefix="/api/products", tags=["Products"])
 
@@ -14,6 +12,10 @@ def r_get_all_products():
 def r_get_product_by_id(id: int):
     return sgpb(id)
     
+@router.delete("/delete/{id}")
+def r_delete_product(id: int):
+    return sdp(id)
+
 @router.patch("/update/{id}", response_model=productUpdateResponse)
 def r_update_product(id: int, product_update: productUpdate):
 
