@@ -1,5 +1,4 @@
 from fastapi import HTTPException
-from supabase.lib.client_options import ClientOptions
 from ..database import get_supabase_client
 
 def s_get_all_products():
@@ -43,4 +42,19 @@ def s_update_product(id: int, update_data: dict):
         }
     except Exception as e:
         print("Error updating product:", e)
+        raise HTTPException(status_code=500, detail=str(e))
+    
+def s_delete_product(id: int):
+    try:
+        supabase = get_supabase_client()
+        res = supabase.table("tb_product").delete().eq("id", id).execute()
+        if not res.data:
+            raise HTTPException(status_code=404, detail=f"Product with ID {id} not found or delete failed")
+        return {
+            "status": "success",
+            "message": "Product deleted successfully",
+            "product_id": id
+        }
+    except Exception as e:
+        print("Error deleting product:", e)
         raise HTTPException(status_code=500, detail=str(e))
