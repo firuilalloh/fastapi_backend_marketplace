@@ -6,8 +6,8 @@ from app.routers import products, users, jasa
 app = FastAPI(title="Marketplace API", version="1.0.0")
 
 origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]
 
 app.add_middleware(

@@ -8,5 +8,8 @@ class Settings(BaseSettings):
     
     supabase_url: str
     supabase_anon_key: str
+    secret_key: str
+    access_token_expire_minutes: int
+    algorithm: str
 
 Settings = Settings()
