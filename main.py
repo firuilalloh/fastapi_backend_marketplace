@@ -1,12 +1,15 @@
 import secrets
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.openapi.utils import get_openapi
 from typing import Annotated
-
 from app.routers import auth, products, jasa
+
+load_dotenv()
 
 app = FastAPI(
     title="Marketplace API", 
@@ -19,8 +22,11 @@ app = FastAPI(
 security = HTTPBasic()
 
 def authenticate_dev(credentials: HTTPBasicCredentials = Depends(security)):
-    correct_username = secrets.compare_digest(credentials.username, "root")
-    correct_password = secrets.compare_digest(credentials.password, "root12345")
+    env_user = os.getenv("DOCS_USERNAME")
+    env_pass = os.getenv("DOCS_PASSWORD")
+
+    correct_username = secrets.compare_digest(credentials.username, env_user or "")
+    correct_password = secrets.compare_digest(credentials.password, env_pass or "")
     
     if not (correct_username and correct_password):
         raise HTTPException(

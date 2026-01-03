@@ -11,5 +11,7 @@ class Settings(BaseSettings):
     secret_key: str
     access_token_expire_minutes: int = 30
     algorithm: str
+    docs_username: str
+    docs_password: str
 
 Settings = Settings()
