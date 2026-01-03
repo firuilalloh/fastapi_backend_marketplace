@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.config import Settings
-from app.routers import products, users, jasa
+# from app.config import Settings
+from app.routers import auth, products, jasa
 
 app = FastAPI(title="Marketplace API", version="1.0.0")
 
@@ -19,7 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(products.router)
-app.include_router(users.router)
+app.include_router(auth.router)
 app.include_router(jasa.router)
 
 @app.get("/api/status")
