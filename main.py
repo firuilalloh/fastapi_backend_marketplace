@@ -7,7 +7,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.openapi.utils import get_openapi
 from typing import Annotated
-from app.routers import auth, products, jasa
+from app.routers import auth, products, jasa, wishlist
 
 load_dotenv()
 
@@ -62,6 +62,7 @@ async def get_open_api_endpoint(username: Annotated[str, Depends(authenticate_de
 app.include_router(products.router)
 app.include_router(auth.router)
 app.include_router(jasa.router)
+app.include_router(wishlist.router)
 
 @app.get("/api/status")
 def get_status():
