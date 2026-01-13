@@ -1,15 +1,16 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 
 class Jasa(BaseModel):
     id: int
-    tier: str
+    nama_jasa: str
     description: str
-    price: float
+    price: int
 
-class jasaResponse(BaseModel):
-    status: str = "success"
-    data: list[Jasa]
+class jasaCreate(BaseModel):
+    nama_jasa: str
+    description: str
+    price: int
 
 class jasaResponseId(BaseModel):
     status: str = "success"
