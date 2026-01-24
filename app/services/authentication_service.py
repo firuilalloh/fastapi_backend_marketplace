@@ -10,7 +10,7 @@ from supabase import Client
 
 from app.config import Settings
 from app.database import get_supabase_client
-from ..models.auth_model import TokenData, User, UserInDb, UserCreate
+from ..models.auth_model import TokenData, User, UserInDb, UserCreate, UserUpdate
 
 SECRET_KEY = Settings.secret_key
 ALGORITHM = Settings.algorithm
@@ -148,3 +148,28 @@ def check_is_admin(current_user: Annotated[User, Depends(get_current_user)]):
             detail="Operation requires admin privileges"
         )
     return current_user
+
+def update_user_in_db(db: Client, user_id: int, update_data: UserUpdate) -> User | None:
+    update_dict = update_data.model_dump(exclude_none=True)
+
+    if "password" in update_dict:
+        update_dict["password"] = get_password_hash(update_dict["password"])
+
+    # Jalankan Update
+    if update_dict:
+        db.table("tb_user").update(update_dict).eq("id", user_id).execute()
+
+    # Ambil ulang data
+    result = db.table("tb_user").select("*").eq("id", user_id).execute()
+    
+    if result.data and len(result.data) > 0:
+        u = result.data[0]
+        # Pastikan key 'id', 'email', 'username', 'role' ADA di dictionary 'u'
+        return User(
+            id=u.get("id"),
+            email=u.get("email"),
+            username=u.get("username"),
+            role=u.get("role", "user")
+        )
+    
+    return None

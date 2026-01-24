@@ -15,10 +15,10 @@ class TokenData(BaseModel):
     username: str | None = None
 
 class User(BaseModel):
-    id: int | None = None
-    email: str
-    role: str = "user"
-    username: str
+    id: Optional[int] = None
+    email: Optional[str] = None
+    username: Optional[str] = None
+    role: Optional[str] = "user"
 
 class UserInDb(User):
     hashed_password: str
@@ -27,3 +27,8 @@ class UserCreate(BaseModel):
     email: str
     username: str
     password: str
+
+class UserUpdate(BaseModel):
+    username: Optional[str] = None
+    email: Optional[str] = None
+    password: Optional[str] = None
