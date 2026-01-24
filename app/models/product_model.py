@@ -3,7 +3,7 @@ from typing import Optional
 
 class Product(BaseModel):
     id: int
-    photo: Optional[str] = None
+    image_url: Optional[str] = None
     name: str
     price: float
     tech: str
@@ -18,11 +18,11 @@ class productResponseId(BaseModel):
     data: list[Product]
 
 class productUpdate(BaseModel):
-    photo: Optional[str] = None
     name: Optional[str] = None
     price:  Optional[float] = None
-    category: Optional[str] = None
     tech: Optional[str] = None
+    description: Optional[str] = None
+    image_url: Optional[str] = None
 
 class productUpdateResponse(BaseModel):
     status: str = "success"

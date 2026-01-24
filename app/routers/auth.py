@@ -8,8 +8,8 @@ from jose import JWTError, jwt
 
 from app.config import Settings
 from app.database import get_supabase_client
-from ..services.authentication_service import authenticate_user, create_access_token, create_user_in_db, get_current_user, create_refresh_token
-from ..models.auth_model import Token, User, UserCreate, UserLogin
+from ..services.authentication_service import authenticate_user, create_access_token, create_user_in_db, get_current_user, create_refresh_token, update_user_in_db
+from ..models.auth_model import Token, User, UserCreate, UserLogin, UserUpdate
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -111,3 +111,19 @@ async def refresh_access_token(refresh_token: Annotated[str, Cookie()] = None):
 async def read_current_user(
         current_user: Annotated[User, Depends(get_current_user)]) -> User:
     return current_user
+
+@router.patch("/me", response_model=User)
+async def update_current_user(
+    update_data: UserUpdate,
+    current_user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[Client, Depends(get_supabase_client)],
+):
+    updated_user = update_user_in_db(db, current_user.id, update_data)
+
+    if not updated_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Failed to update user"
+        )
+    
+    return updated_user
