@@ -1,12 +1,12 @@
-from pydantic import BaseModel
-from typing import Optional
+from pydantic import BaseModel, Field
+from typing import List, Optional
 
 class Product(BaseModel):
     id: int
-    image_url: Optional[str] = None
+    image_url: Optional[List[str]] = Field(default_factory=list)
     name: str
     price: float
-    tech: str
+    tech: list[str] = Field(default_factory=list)
     description: Optional[str] = None
 
 class productResponse(BaseModel):
@@ -20,11 +20,15 @@ class productResponseId(BaseModel):
 class productUpdate(BaseModel):
     name: Optional[str] = None
     price:  Optional[float] = None
-    tech: Optional[str] = None
+    tech: Optional[list[str]] = None
     description: Optional[str] = None
-    image_url: Optional[str] = None
-
+    image_url: Optional[List[str]] = None
 class productUpdateResponse(BaseModel):
     status: str = "success"
     message: str
-    product_id: int
+    product_id: Optional[int] = None
+
+class ProductCreateResponse(BaseModel):
+    status: str = "success"
+    message: str
+    data: Optional[list[Product]] = None
