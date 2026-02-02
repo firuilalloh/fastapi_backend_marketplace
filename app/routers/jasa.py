@@ -1,21 +1,36 @@
-from fastapi import APIRouter, HTTPException
-from supabase.lib.client_options import ClientOptions
-from ..database import get_supabase_client
-from ..models.jasa_model import Jasa, jasaResponse, jasaResponseId, jasaUpdate
+from fastapi import APIRouter
+from ..models.jasa_model import (
+    JasaResponse,
+    JasaCreate,
+    JasaUpdate
+)
+from ..services.jasa_service import (
+    s_get_all_jasa,
+    s_get_jasa_by_id,
+    s_create_jasa,
+    s_update_jasa
+)
 
-router = APIRouter(prefix="/api/jasa", tags=["Jasa"])
+router = APIRouter(
+    prefix="/api/jasa",
+    tags=["Jasa"]
+)
 
-@router.get("/", response_model=jasaResponse)
+@router.get("/", response_model=JasaResponse)
 def get_all_jasa():
-    try:
-        supabase = get_supabase_client()
-        res = supabase.table("tb_jasa").select("*").execute()
-        data_jasa = res.data
-        return {
-            "status": "success",
-            "data": data_jasa,
-            }
-    except Exception as e:
-        print("Error fetching jasa:", e)
-        raise HTTPException(status_code=500, detail=str(e))
+    return s_get_all_jasa()
 
+@router.get("/{jasa_id}")
+def get_jasa_by_id(jasa_id: int):
+    return s_get_jasa_by_id(jasa_id)
+
+@router.post("/")
+def create_jasa(payload: JasaCreate):
+    return s_create_jasa(payload.dict())
+
+@router.put("/{jasa_id}")
+def update_jasa(jasa_id: int, payload: JasaUpdate):
+    return s_update_jasa(
+        jasa_id,
+        payload.dict(exclude_unset=True)
+    )
