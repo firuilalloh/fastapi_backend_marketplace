@@ -7,16 +7,20 @@ class Jasa(BaseModel):
     description: str
     price: int
 
-class jasaCreate(BaseModel):
+class JasaCreate(BaseModel):
     nama_jasa: str
     description: str
     price: int
 
-class jasaResponseId(BaseModel):
+class JasaResponseId(BaseModel):
     status: str = "success"
     data: list[Jasa]
 
-class jasaUpdate(BaseModel):
+class JasaUpdate(BaseModel):
     tier: Optional[str] = None
     description: Optional[str] = None
     price: Optional[float] = None
+
+class JasaResponse(BaseModel):
+    status: str = "success"
+    data: List[Jasa]
