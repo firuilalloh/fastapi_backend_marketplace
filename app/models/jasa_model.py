@@ -3,18 +3,18 @@ from typing import Optional, List
 
 class Jasa(BaseModel):
     id: int
-    nama_jasa: str
+    tier: str
     description: str
     price: int
 
 class JasaCreate(BaseModel):
-    nama_jasa: str
+    tier: str
     description: str
     price: int
 
 class JasaResponseId(BaseModel):
     status: str = "success"
-    data: list[Jasa]
+    data: List[Jasa]
 
 class JasaUpdate(BaseModel):
     tier: Optional[str] = None
