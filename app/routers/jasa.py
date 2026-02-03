@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends
 from typing import Annotated
 from ..models.jasa_model import (
     JasaResponse,
-    JasaResponseId,
     JasaCreate,
     JasaUpdate
 )
