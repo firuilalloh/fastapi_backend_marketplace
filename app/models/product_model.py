@@ -9,21 +9,21 @@ class Product(BaseModel):
     tech: list[str] = Field(default_factory=list)
     description: Optional[str] = None
 
-class productResponse(BaseModel):
+class ProductResponse(BaseModel):
     status: str = "success"
     data: list[Product]
 
-class productResponseId(BaseModel):
+class ProductResponseId(BaseModel):
     status: str = "success"
     data: list[Product]
 
-class productUpdate(BaseModel):
+class ProductUpdate(BaseModel):
     name: Optional[str] = None
     price:  Optional[float] = None
     tech: Optional[list[str]] = None
     description: Optional[str] = None
     image_url: Optional[List[str]] = None
-class productUpdateResponse(BaseModel):
+class ProductUpdateResponse(BaseModel):
     status: str = "success"
     message: str
     product_id: Optional[int] = None
