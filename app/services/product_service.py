@@ -85,13 +85,11 @@ def s_update_product(id: int, name: Optional[str], price: Optional[float], tech:
         supabase = get_supabase_client()
         update_data = {}
 
-        # 1. ngambil data lama dari DB (untuk tech & image_url)
         current = supabase.table("tb_product").select(
             "tech, image_url").eq("id", id).single().execute()
         old_tech = current.data.get("tech", []) if current.data else []
         old_images = current.data.get("image_url", []) if current.data else []
 
-        # 2. Mapping data
         if name is not None:
             update_data["name"] = name
         if price is not None:
@@ -99,12 +97,9 @@ def s_update_product(id: int, name: Optional[str], price: Optional[float], tech:
         if description is not None:
             update_data["description"] = description
 
-        # 3. Logika Tambah Tech
         if tech is not None:
-            # Menggabungkan tech lama dengan tech baru, lalu hilangkan duplikat dengan set
             update_data["tech"] = list(set(old_tech + tech))
 
-        # 4. Logika Tambah Gambar (Append)
         if files:
             new_urls = []
             folder_name = f"product_{id}"
@@ -123,17 +118,14 @@ def s_update_product(id: int, name: Optional[str], price: Optional[float], tech:
                     "marketplace_database").get_public_url(file_path)
                 new_urls.append(url)
 
-            # Gabungkan URL lama dengan yang baru
             update_data["image_url"] = old_images + new_urls
 
-        # 5. Eksekusi Update
         if not update_data:
             raise HTTPException(
                 status_code=400, detail="Gak ada data yang diubah, mas.")
 
         supabase.table("tb_product").update(update_data).eq("id", id).execute()
 
-        # 6. Return Response
         return {
             "status": "success",
             "message": "Product updated successfully",

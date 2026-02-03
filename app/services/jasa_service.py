@@ -1,7 +1,7 @@
 from ..database import get_supabase_client
 def s_get_all_jasa():
     supabase = get_supabase_client()
-    result = supabase.table("jasa").select("*").execute()
+    result = supabase.table("tb_jasa").select("*").execute()
 
     return {
         "status": "success",
@@ -13,7 +13,7 @@ def s_get_jasa_by_id(jasa_id: int):
 
     result = (
         supabase
-        .table("jasa")
+        .table("tb_jasa")
         .select("*")
         .eq("id", jasa_id)
         .single()
@@ -27,7 +27,7 @@ def s_get_jasa_by_id(jasa_id: int):
 
 def s_create_jasa(payload: dict):
     supabase = get_supabase_client()
-    result = supabase.table("jasa").insert(payload).execute()
+    result = supabase.table("tb_jasa").insert(payload).execute()
 
     return {
         "status": "success",
@@ -40,7 +40,7 @@ def s_update_jasa(jasa_id: int, payload: dict):
 
     result = (
         supabase
-        .table("jasa")
+        .table("tb_jasa")
         .update(payload)
         .eq("id", jasa_id)
         .execute()

@@ -66,7 +66,6 @@ def get_user(db: Client, username: str) -> UserInDb | None:
 
         if response.data and len(response.data) > 0:
             user_data = response.data[0]
-            hashed_pass = user_data.get("password")
             return UserInDb(
                 id=user_data.get("id"),
                 username=user_data.get("username"),
@@ -107,7 +106,7 @@ def create_refresh_token(data: dict):
     to_encode.update({"exp": expire, "type": "refresh"})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
-async def get_current_user(
+def get_current_user(
     token: Annotated[str, Depends(oauth2_scheme)],
     db: Annotated[Client, Depends(get_supabase_client)],
 ) -> User:
@@ -134,13 +133,6 @@ async def get_current_user(
 
     return User(**user.model_dump(exclude={"hashed_password"}))
 
-
-async def get_current_active_user(
-        current_user: Annotated[User, Depends(get_current_user)]) -> User:
-    if current_user.disabled:
-        raise HTTPException(status_code=400, detail="Inactive user")
-    return current_user
-
 def check_is_admin(current_user: Annotated[User, Depends(get_current_user)]):
     if current_user.role != "admin":
         raise HTTPException(
@@ -155,16 +147,13 @@ def update_user_in_db(db: Client, user_id: int, update_data: UserUpdate) -> User
     if "password" in update_dict:
         update_dict["password"] = get_password_hash(update_dict["password"])
 
-    # Jalankan Update
     if update_dict:
         db.table("tb_user").update(update_dict).eq("id", user_id).execute()
 
-    # Ambil ulang data
     result = db.table("tb_user").select("*").eq("id", user_id).execute()
     
     if result.data and len(result.data) > 0:
         u = result.data[0]
-        # Pastikan key 'id', 'email', 'username', 'role' ADA di dictionary 'u'
         return User(
             id=u.get("id"),
             email=u.get("email"),
